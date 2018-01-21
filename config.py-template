@@ -1,0 +1,15 @@
+
+# lufdaten.info
+particle_sensor_id = 4711
+temperature_sensor_id = 4712
+luftdaten_url = 'http://api.luftdaten.info/v1/sensor/%s/'
+luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
+twitter_tags = "#feinstaub"
+limit_pm_10_0 = 20
+
+# tweeter
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
+
