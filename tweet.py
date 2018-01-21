@@ -10,9 +10,11 @@ def lookup_sensors(base_url, sensors):
     def lookup_single_sensor_data(url_param):
 
         response = requests.get(url_param)
+       
+        print(response.json())
 
         if response.ok:
-            data_records = json.loads(response.content)
+            data_records = response.json()
             current_data_record = data_records[-1]
             v1 = current_data_record['sensordatavalues'][0]['value']
             v2 = current_data_record['sensordatavalues'][-1]['value']
