@@ -9,7 +9,7 @@ conf_twitter_msg_preamble = "#feinstaub"
 conf_twitter_tag_bot = "bot"
 conf_twitter_user_id = 'my-account'
 conf_limit_pm_10_0 = 40
-conf_quit_period_in_hours = 6
+conf_quiet_period_in_hours = 6
 
 
 # tweeter
