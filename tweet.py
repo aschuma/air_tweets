@@ -1,8 +1,10 @@
-import json
-import tweepy
-import requests
+import datetime
 from functools import reduce
 from time import gmtime, strftime
+
+import requests
+import tweepy
+
 from config import *
 
 
@@ -10,7 +12,7 @@ def lookup_sensors(base_url, sensors):
     def lookup_single_sensor_data(url_param):
 
         response = requests.get(url_param)
-       
+
         print(response.json())
 
         if response.ok:
@@ -27,8 +29,8 @@ def lookup_sensors(base_url, sensors):
 
 def lookup():
     (pm_10_0_p, pm_2_50_p), (temperature_p, humidity_p) = lookup_sensors(
-        luftdaten_url,
-        [particle_sensor_id, temperature_sensor_id])
+        conf_luftdaten_url,
+        [conf_particle_sensor_id, conf_temperature_sensor_id])
 
     if reduce(lambda zero, item: zero and item is not None, [pm_10_0_p, pm_2_50_p, temperature_p, humidity_p], True):
         return [pm_10_0_p, pm_2_50_p, temperature_p, humidity_p]
@@ -36,35 +38,69 @@ def lookup():
         return None
 
 
-def tweet(msg):
+def twitter_api():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
+    return api
+
+
+def tweet(msg):
     try:
-        api.update_status(msg)
+        twitter_api().update_status(msg)
     except tweepy.TweepError as e:
         print(e.reason)
 
 
+def last_bot_tweets():
+    def print_last_tweets(timeline_filtered):
+        print("--- last tweets ----")
+        for item in timeline_filtered:
+            print(item)
+        print("--------------------")
+
+    def has_bot_marker(timeline_item):
+        hashtags = [tags['text'] for tags in timeline_item.entities['hashtags']]
+        return conf_twitter_tag_bot in hashtags
+
+    try:
+        timeline = twitter_api().user_timeline(user_id=conf_twitter_user_id, count=50)
+        timeline_filtered = [item for item in timeline if has_bot_marker(item)]
+
+        print_last_tweets(timeline_filtered)
+
+        return timeline_filtered
+
+    except tweepy.TweepError as e:
+        print(e.reason)
+
+
+def may_tweet_again():
+    reference_timestamp = datetime.datetime.now() - datetime.timedelta(hours=conf_quit_period_in_hours)
+    tweet_ts = [item.created_at for item in last_bot_tweets()]
+    allowed = len(tweet_ts) == 0 or max(tweet_ts) < reference_timestamp
+
+    print("Quit period NOT exceeded", allowed)
+
+    return allowed
+
+
 pm_10_0, pm_2_50, temperature, humidity = lookup()
 
-
-if pm_10_0 is not None and pm_2_50 is not None and float(pm_10_0) > limit_pm_10_0:
-
+if pm_10_0 is not None and pm_2_50 is not None and float(pm_10_0) > conf_limit_pm_10_0:
     current_time = strftime("%Y-%m-%d %H:%M:%S UTC", gmtime())
 
-    message = "{}\nCurrent values: PM10: {}g/m³ PM2.5: {}µg/m³\n{}".format(
-        twitter_tags,
+    message = "{} #{}\n⚠ PM10: {}g/m,³ PM2.5: {}µg/m³, {}°C, RH:{}%\n{}\n".format(
+        conf_twitter_msg_preamble,
+        conf_twitter_tag_bot,
         pm_10_0,
         pm_2_50,
-        luftdaten_map_url
+        temperature,
+        humidity,
+        conf_luftdaten_map_url
     )
 
     print(message)
 
-    tweet(message)
-
-
-
-
-
+    if may_tweet_again():
+        tweet(message)

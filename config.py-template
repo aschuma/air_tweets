@@ -1,11 +1,16 @@
 
 # lufdaten.info
-particle_sensor_id = 4711
-temperature_sensor_id = 4712
-luftdaten_url = 'http://api.luftdaten.info/v1/sensor/%s/'
-luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-twitter_tags = "#feinstaub"
-limit_pm_10_0 = 20
+conf_particle_sensor_id = 4711
+conf_temperature_sensor_id = 4711
+conf_luftdaten_url = 'http://api.luftdaten.info/v1/sensor/%s/'
+conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
+conf_luftdaten_graph_url = "http://www.madavi.de/sensor/graph.php?sensor=esp8266-532353-sds011"
+conf_twitter_msg_preamble = "#feinstaub"
+conf_twitter_tag_bot = "bot"
+conf_twitter_user_id = 'my-account'
+conf_limit_pm_10_0 = 40
+conf_quit_period_in_hours = 6
+
 
 # tweeter
 consumer_key = ''
