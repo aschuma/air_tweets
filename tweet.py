@@ -90,11 +90,13 @@ pm_10_0, pm_2_50, temperature, humidity = lookup()
 if pm_10_0 is not None and pm_2_50 is not None and float(pm_10_0) > conf_limit_pm_10_0:
     current_time = strftime("%Y-%m-%d %H:%M:%S UTC", gmtime())
 
-    message = "{} #{}\n⚠ PM10: {}g/m³ PM2.5: {}µg/m³\n{}\n".format(
+    message = "{} #{}\n⚠ PM10: {}g/m,³ PM2.5: {}µg/m³, {}°C, RH:{}%\n{}\n".format(
         conf_twitter_msg_preamble,
         conf_twitter_tag_bot,
         pm_10_0,
         pm_2_50,
+        temperature,
+        humidity,
         conf_luftdaten_map_url
     )
 
