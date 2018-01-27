@@ -1,9 +1,9 @@
+import datetime
 from functools import reduce
 from time import gmtime, strftime
 
 import requests
 import tweepy
-import datetime
 
 from config import *
 
@@ -53,7 +53,6 @@ def tweet(msg):
 
 
 def last_bot_tweets():
-
     def print_last_tweets(timeline_filtered):
         print("--- last tweets ----")
         for item in timeline_filtered:
@@ -78,10 +77,10 @@ def last_bot_tweets():
 
 def may_tweet_again():
     reference_timestamp = datetime.datetime.now() - datetime.timedelta(hours=conf_quit_period_in_hours)
-    recent_tweet_ts = max([item.created_at for item in last_bot_tweets()])
-    allowed = recent_tweet_ts < reference_timestamp
+    tweet_ts = [item.created_at for item in last_bot_tweets()]
+    allowed = len(tweet_ts) == 0 or max(tweet_ts) < reference_timestamp
 
-    print("Quit period exceeded", allowed)
+    print("Quit period NOT exceeded", allowed)
 
     return allowed
 
@@ -103,4 +102,3 @@ if pm_10_0 is not None and pm_2_50 is not None and float(pm_10_0) > conf_limit_p
 
     if may_tweet_again():
         tweet(message)
-
