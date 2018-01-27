@@ -1,5 +1,12 @@
-# twwet of own sensor data on feinstaub-api 
-http://luftdaten.info/
+```
+_______ __        _______                        __         
+|   _   |__|.----.|_     _|.--.--.--.-----.-----.|  |_.-----.
+|       |  ||   _|  |   |  |  |  |  |  -__|  -__||   _|__ --|
+|___|___|__||__|    |___|  |________|_____|_____||____|_____|
+                                                                                                                            
+```
+# Tweeters air quality measurement results of feinstaub sensors (http://luftdaten.info)
+
 
 ## config
 
