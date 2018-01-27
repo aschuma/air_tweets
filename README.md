@@ -7,7 +7,7 @@ c$$$cc$$$c   $$$   $$$$$$c           $$        Y$c$$$c$P    $$""""   $$""""     
  YMM   ""`   MMM   MMMM   "W"        MMM         "M "M"     """"YUMMM""""YUMMM   MMM      "YMmMY"                                         
  
 ```
-# Tweeters air quality measurement results of feinstaub sensors (http://luftdaten.info)
+# Tweets air quality measurement results of particulate matter (Feinstaub) (http://luftdaten.info)
 
 
 ## config
@@ -22,7 +22,7 @@ Set your sensor meta data in config.py.
 add to your crontab:
 
 ```
-20 0 * * * cd /home/myuser/myproject && venv/bin/python tweet.py > /dev/null 2>&1
+*/15 * * * * cd /home/pi/projects/aschuma__luftdaten_tweet && venv/bin/python tweet.py > /dev/null 2>&1
 ```
 
 ## virtualenv
