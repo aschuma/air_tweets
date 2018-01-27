@@ -1,4 +1,14 @@
-# twwet of own sensor data on feinstaub-api 
+
+```
+ _______ __        _______                        __              
+|   _   |__|.----.|_     _|.--.--.--.-----.-----.|  |_.-----.----.
+|       |  ||   _|  |   |  |  |  |  |  -__|  -__||   _|  -__|   _|
+|___|___|__||__|    |___|  |________|_____|_____||____|_____|__|  
+                                                                  
+```
+
+
+# tweet of own sensor data on feinstaub-api 
 http://luftdaten.info/
 
 ## config
