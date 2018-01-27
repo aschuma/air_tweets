@@ -76,11 +76,11 @@ def last_bot_tweets():
 
 
 def may_tweet_again():
-    reference_timestamp = datetime.datetime.now() - datetime.timedelta(hours=conf_quit_period_in_hours)
+    reference_timestamp = datetime.datetime.now() - datetime.timedelta(hours=conf_quiet_period_in_hours)
     tweet_ts = [item.created_at for item in last_bot_tweets()]
     allowed = len(tweet_ts) == 0 or max(tweet_ts) < reference_timestamp
 
-    print("Quit period NOT exceeded", allowed)
+    print("may_tweet_again reference={}, tweets_ts{} -> {}".format( reference_timestamp, [str(item) for item in tweet_ts], allowed))
 
     return allowed
 
