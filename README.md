@@ -29,7 +29,7 @@ are created for a configurable period.
 - Create a twitter account, obtain an access token, see https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens for further details.
 - Make sure python 3 is installed on your dev machine.
 - Clone this repository
-- Create a virtual environment, e.g. you may obtain more information about those steps here: http://docs.python-guide.org/en/latest/dev/virtualenvs/ 
+- Create a virtual environment, you may obtain more information about the steps below here: http://docs.python-guide.org/en/latest/dev/virtualenvs/ 
  ```
    virtualenv venv -p /usr/bin/python3
    source venv/bin/activate
