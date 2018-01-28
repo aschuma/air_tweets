@@ -57,7 +57,7 @@ are created for a configurable period.
 - Setup a cron job
 
 ```
-*/15 * * * * cd /home/pi/projects/aschuma__luftdaten_tweet && venv/bin/python tweet.py > /dev/null 2>&1
+*/15 * * * * cd /home/pi/projects/air_tweets && venv/bin/python tweet.py > /dev/null 2>&1
 ```
 
 # Contribution
