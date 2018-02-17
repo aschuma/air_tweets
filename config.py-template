@@ -1,18 +1,30 @@
 
-# lufdaten.info
-conf_particle_sensor_id = 4711
-conf_temperature_sensor_id = 4711
-conf_luftdaten_url = 'http://api.luftdaten.info/v1/sensor/%s/'
-conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-conf_luftdaten_graph_url = "http://www.madavi.de/sensor/graph.php?sensor=esp8266-532353-sds011"
-conf_twitter_msg_preamble = "#feinstaub"
-conf_twitter_tag_bot = "bot"
-conf_twitter_user_id = 'my-account'
-conf_limit_pm_10_0 = 40
+# database, last tweet timestamp
+conf_storage = "/tmp/.air_tweet"
+
+# the sensor ids
+conf_particle_sensor_id = 7561
+conf_temperature_sensor_id = 7562
+
+# url used to fetch the avg sensor of the last hour
+conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+
+# sensor graphs to embed in the tweet
+conf_luftdaten_graph_pm100_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-1-day.png"
+conf_luftdaten_graph_pm025_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-25-day.png"
+
+# PM 10 limit
+conf_limit_pm_10_0 = 50
+
+# quiet period after after a tweet has published
 conf_quiet_period_in_hours = 6
 
+# stuff to embed in the tweet
+conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
+conf_twitter_msg_preamble = "#feinstaub #feinstaubalarm #cannstatt"
 
-# tweeter
+# twitter credentials
 consumer_key = ''
 consumer_secret = ''
 access_token = ''
