@@ -72,8 +72,7 @@ message = '''
 {}
 ⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
 Details: {}
-
-This is a #bot, code available on github aschuma/air_tweets
+This is a #bot. Code available on github aschuma/air_tweets
 '''.format(
     conf_twitter_msg_preamble,
     value_pm100,
