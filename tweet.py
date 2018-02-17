@@ -86,8 +86,8 @@ This is a #bot, code available on github aschuma/air_tweets
 
 print(message)
 
-if value_pm100 >= conf_limit_pm_10_0:
-    print("noop, limit not exceeded")
+if value_pm100 < conf_limit_pm_10_0:
+    print("noop, limit not exceeded, current=", value_pm100, " limit=", conf_limit_pm_10_0)
     sys.exit(0)
 
 graphPM100 = BytesIO(requests.get(conf_luftdaten_graph_pm100_url).content)
