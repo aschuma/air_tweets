@@ -30,37 +30,54 @@ are created for a configurable period.
 - Make sure python 3 is installed on your dev machine.
 - Clone this repository
 - Create a virtual environment, you may obtain more information about the steps below here: http://docs.python-guide.org/en/latest/dev/virtualenvs/ 
- ```
+   ```
    virtualenv venv -p /usr/bin/python3
    source venv/bin/activate
    pip3 install -r requirements.txt 
- ```
+   ```
 - Copy the file ```config.py-template``` to ```config.py```, adjust the setup. At least you should alter the following values as starting point.
 
-```
-   # Your PM sensor ID
-   conf_particle_sensor_id = 4711
-   # Your temperature sensor ID
-   conf_temperature_sensor_id = 4711
-   # The URL pointing to the location of your sensor
-   conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-   # The name of your twitter account
-   conf_twitter_user_id = 'my-account'
+   ```
 
+   # database, last tweet timestamp
+   conf_storage = "/tmp/.air_tweet"
+   
+   # the sensor ids
+   conf_particle_sensor_id = 6655
+   conf_temperature_sensor_id = 6656
+   
+   # url used to fetch the avg sensor of the last hour
+   conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+   conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+   
+   # sensor graphs to embed in the tweet
+   conf_luftdaten_graph_pm100_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-1-day.png"
+   conf_luftdaten_graph_pm025_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-25-day.png"
+   
+   # PM 10 limit
+   conf_limit_pm_10_0 = 50
+   
+   # quiet period after after a tweet has published
+   conf_quiet_period_in_hours = 6
+   
+   # stuff to embed in the tweet
+   conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
+   conf_twitter_msg_preamble = "#feinstaub #feinstaubalarm #cannstatt"
+   
    # Credentials provided by twitter
    consumer_key = ''
    consumer_secret = ''
    access_token = ''
    access_token_secret = ''
- 
-```
+    
+   ```
 - Setup a cron job
 
-```
-*/15 * * * * cd /home/pi/projects/air_tweets && venv/bin/python tweet.py > /dev/null 2>&1
-```
+  ```
+  */15 * * * * cd /home/pi/projects/air_tweets && venv/bin/python tweet.py > /dev/null 2>&1
+  ```
 
 # Contribution
-Please feel free to issue a bug report or create a PR. Any helping hand is welcome. 
+Please feel free to issue a bug report or submit a PR. Any helping hand is welcome. 
 
 Be aware that my primary coding language is Java. So currently some code portions might not follow python best practices.
