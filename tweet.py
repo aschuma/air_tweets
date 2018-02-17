@@ -68,12 +68,21 @@ print([value_pm100, value_pm025, value_temperature, value_humidity])
 
 current_time = strftime("%d.%m.%Y %H:%M:%S")
 
-message = f'''
-{conf_twitter_msg_preamble}
-⚠ PM10: {value_pm100}µg/m³, PM2.5: {value_pm025}µg/m³, {value_temperature}°C, RH:{value_humidity}%\nDetails: {conf_luftdaten_map_url}
+message = '''
+{}
+⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
+Details: {}
+
 This is a #bot, code available on github aschuma/air_tweets
-{current_time}
-'''
+'''.format(
+    conf_twitter_msg_preamble,
+    value_pm100,
+    value_pm025,
+    value_temperature,
+    value_humidity,
+    current_time,
+    conf_luftdaten_map_url
+)
 
 print(message)
 
