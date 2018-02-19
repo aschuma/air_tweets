@@ -3,6 +3,7 @@ import shelve
 import sys
 from io import BytesIO
 from time import strftime
+from time import time
 from twython import Twython
 import jsonpath_rw_ext as jp
 import requests
@@ -89,9 +90,17 @@ if value_pm100 < conf_limit_pm_10_0:
     print("noop, limit not exceeded, current=", value_pm100, " limit=", conf_limit_pm_10_0)
     sys.exit(0)
 
-graphPM100 = BytesIO(requests.get(conf_luftdaten_graph_pm100_url).content)
-# graphPM025 = BytesIO(requests.get(conf_luftdaten_graph_pm025_url).content)
+to_time = int(round(time() * 1000))
+from_time = to_time - (1000*60*60*24)
 
+url_PM100 = conf_luftdaten_graph_pm100_url.format(from_time, to_time)
+url_PM025 = conf_luftdaten_graph_pm025_url.format(from_time, to_time)
+print(url_PM100)
+print(url_PM025)
+
+graphPM100 = BytesIO(requests.get(url_PM100).content)
+graphPM025 = BytesIO(requests.get(url_PM025).content)
+# graphPM025 = BytesIO(requests.get(conf_luftdaten_graph_pm025_url).content)
 
 twitter = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
 twitter.verify_credentials()
