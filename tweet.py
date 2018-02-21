@@ -73,7 +73,7 @@ message = '''
 {}
 ⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
 Details: {}
-This is a #bot. Code available on github aschuma/air_tweets
+#bot code: github aschuma/air_tweets
 '''.format(
     conf_twitter_msg_preamble,
     value_pm100,
@@ -99,8 +99,7 @@ print(url_PM100)
 print(url_PM025)
 
 graphPM100 = BytesIO(requests.get(url_PM100).content)
-graphPM025 = BytesIO(requests.get(url_PM025).content)
-# graphPM025 = BytesIO(requests.get(conf_luftdaten_graph_pm025_url).content)
+#graphPM025 = BytesIO(requests.get(url_PM025).content)
 
 twitter = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
 twitter.verify_credentials()
