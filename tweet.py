@@ -69,9 +69,10 @@ print([value_pm100, value_pm025, value_temperature, value_humidity])
 
 current_time = strftime("%d.%m.%Y %H:%M:%S")
 
+# ⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
 message = '''
 {}
-⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
+⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C ({})
 Details: {}
 #bot code: github aschuma/air_tweets
 '''.format(
@@ -79,7 +80,7 @@ Details: {}
     value_pm100,
     value_pm025,
     value_temperature,
-    value_humidity,
+#    value_humidity,
     current_time,
     conf_luftdaten_map_url
 )
