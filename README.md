@@ -14,15 +14,11 @@ sensor of the http://luftdaten.info network. A tweet is published in case the PM
 exceeds a configurable value, e.g. 50 µg/m³.
 
 A tweet might look like this:
- ```
-#feinstaub #feinstaubalarm  #bot
-⚠ PM10: 68.07g/m,³ PM2.5: 41.87µg/m³, 5.50°C, RH:96.00%
-http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372
-```
+
+<img width="482" height="388" src="https://github.com/aschuma/air_tweets/raw/master/tweet-screnshot.png">
 
 This repository provides a cron job written in python 3. After a tweet submission no further tweets
 are created for a configurable period. 
-
 
 # Installation
 
