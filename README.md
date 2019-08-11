@@ -42,7 +42,7 @@ are created for a configurable period.
    conf_particle_sensor_id = 6655
    conf_temperature_sensor_id = 6656
    
-   # url used to fetch the avg sensor of the last hour
+   # url used to fetch the avg sensor value of the last hour
    conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
    conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
    
