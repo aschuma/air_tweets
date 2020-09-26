@@ -53,7 +53,7 @@ are created for a configurable period.
    # PM 10 limit
    conf_limit_pm_10_0 = 50
    
-   # quiet period after after a tweet has published
+   # quiet period after a tweet has been published
    conf_quiet_period_in_hours = 6
    
    # stuff to embed in the tweet
