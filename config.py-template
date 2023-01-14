@@ -11,8 +11,8 @@ conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
 conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
 
 # sensor graphs to embed in the tweet
-conf_luftdaten_graph_pm100_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-1-day.png"
-conf_luftdaten_graph_pm025_url = "https://www.madavi.de/sensor/images/sensor-esp8266-532353-sds011-25-day.png"
+conf_luftdaten_graph_url = "http://192.168.0.43:3000/render/d-solo/eDF152mRk/twitter?panelId=2&orgId=1&from={}&to={}&width=800&height=500&tz=UTC%2B02%3A00"
+conf_luftdaten_graph_mime_type = "image/png"
 
 # PM 10 limit
 conf_limit_pm_10_0 = 50
@@ -22,11 +22,16 @@ conf_quiet_period_in_hours = 6
 
 # stuff to embed in the tweet
 conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-conf_twitter_msg_preamble = "#feinstaub #feinstaubalarm #cannstatt"
+conf_msg_preamble = "#feinstaub in #cannstatt:"
 
 # twitter credentials
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+twitter_enabled = True
+twitter_consumer_key = ''
+twitter_consumer_secret = ''
+twitter_access_token = ''
+twitter_access_token_secret = ''
 
+#mastodon credentials
+mastodon_enabled = True
+mastodon_api_base_url = 'https://mastodon.online' 
+mastodon_access_token =  ''
