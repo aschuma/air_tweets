@@ -4,6 +4,7 @@ import sys
 from io import BytesIO
 from time import strftime
 from twython import Twython
+from mastodon import Mastodon
 import jsonpath_rw_ext as jp
 import requests
 
@@ -74,7 +75,7 @@ message = '''
 Details: {}
 This is a #bot. Code available on github aschuma/air_tweets
 '''.format(
-    conf_twitter_msg_preamble,
+    conf_msg_preamble,
     value_pm100,
     value_pm025,
     value_temperature,
@@ -86,23 +87,37 @@ This is a #bot. Code available on github aschuma/air_tweets
 print(message)
 
 if value_pm100 < conf_limit_pm_10_0:
-    print("noop, limit not exceeded, current=", value_pm100, " limit=", conf_limit_pm_10_0)
+    print("noop, limit not exceeded, current=",
+          value_pm100, " limit=", conf_limit_pm_10_0)
     sys.exit(0)
 
-graphPM100 = BytesIO(requests.get(conf_luftdaten_graph_pm100_url).content)
-# graphPM025 = BytesIO(requests.get(conf_luftdaten_graph_pm025_url).content)
+imageBytes = requests.get(conf_luftdaten_graph_url).content
 
+if twitter_enabled:
+    twitter = Twython(
+        twitter_consumer_key,
+        twitter_consumer_secret,
+        twitter_access_token,
+        twitter_access_token_secret)
+    twitter.verify_credentials()
+    twitter_upload_response = twitter.upload_media(
+        media=BytesIO(imageBytes))
+    twitter.update_status(
+        status=message,
+        media_ids=[twitter_upload_response['media_id']])
+    print("Twitter: Done")
 
-twitter = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
-twitter.verify_credentials()
-
-response_graphPM100 = twitter.upload_media(media=graphPM100)
-#response_graphPM025 = twitter.upload_media(media=graphPM025)
-twitter.update_status(status=message,
-                      media_ids=[
-                          response_graphPM100['media_id']
-                      #    , response_graphPM025['media_id']
-                      ])
+if mastodon_enabled:
+    mastodon = Mastodon(
+        access_token=mastodon_access_token,
+        api_base_url=mastodon_api_base_url)
+    mastodon_upload_response = mastodon.media_post(
+        media_file=BytesIO(imageBytes),
+        mime_type=conf_luftdaten_graph_mime_type)
+    mastodon.status_post(
+        status=message,
+        media_ids=[mastodon_upload_response])
+    print("Mastodon: Done")
 
 update_quiet_period()
 
