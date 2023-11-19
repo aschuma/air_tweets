@@ -18,6 +18,10 @@ A tweet might look like this:
 This repository provides a cron job written in python 3. After a tweet submission no further tweets
 are created for a configurable period.
 
+# Deprecation of Twitter Support
+
+⚠️ The Twitter support will be deprecated some time in the future. Please refer to the ['r3.0.0'](https://github.com/aschuma/air_tweets/tree/r3.0.0) tag to access the latest functioning code for Twitter.
+
 # Installation
 
 - Create a twitter account, obtain an access token, see https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens for further details.
