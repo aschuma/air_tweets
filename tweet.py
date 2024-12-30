@@ -73,7 +73,7 @@ current_time = strftime("%d.%m.%Y %H:%M:%S")
 
 message = '''
 {}
-⚠ PM10: {}µg/m³, PM2.5: {}µgm ({})
+⚠ PM10: {}µg/m³, PM2.5: {}µg/m³ ({})
 Details: {}
 This is a bot. Code is available on github aschuma/air_tweets
 '''.format(
