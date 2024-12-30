@@ -56,14 +56,16 @@ pm_sensor_item = sensor_item(
     sensor_json(conf_url_pm_sensor),
     conf_particle_sensor_id)
 
-th_sensor_item = sensor_item(
-    sensor_json(conf_url_th_sensor),
-    conf_temperature_sensor_id)
+# th_sensor_item = sensor_item(
+#     sensor_json(conf_url_th_sensor),
+#     conf_temperature_sensor_id)
 
 value_pm100 = extract_value_from_json_item(pm_sensor_item, "P1")
 value_pm025 = extract_value_from_json_item(pm_sensor_item, "P2")
-value_temperature = extract_value_from_json_item(th_sensor_item, "temperature")
-value_humidity = extract_value_from_json_item(th_sensor_item, "humidity")
+# value_temperature = extract_value_from_json_item(th_sensor_item, "temperature")
+# value_humidity = extract_value_from_json_item(th_sensor_item, "humidity")
+value_temperature = ''
+value_humidity = ''
 
 print([value_pm100, value_pm025, value_temperature, value_humidity])
 
@@ -71,14 +73,14 @@ current_time = strftime("%d.%m.%Y %H:%M:%S")
 
 message = '''
 {}
-⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C ({})
+⚠ PM10: {}µg/m³, PM2.5: {}µgm ({})
 Details: {}
-This is a #bot. Code available on github aschuma/air_tweets
+This is a bot. Code is available on github aschuma/air_tweets
 '''.format(
     conf_msg_preamble,
     value_pm100,
     value_pm025,
-    value_temperature,
+    # value_temperature,
     current_time,
     conf_luftdaten_map_url
 )
