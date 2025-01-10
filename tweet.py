@@ -3,7 +3,6 @@ import shelve
 import sys
 from io import BytesIO
 from time import strftime
-from twython import Twython
 from mastodon import Mastodon
 import jsonpath_rw_ext as jp
 import requests
@@ -92,20 +91,6 @@ if value_pm100 < conf_limit_pm_10_0:
     sys.exit(0)
 
 imageBytes = requests.get(conf_luftdaten_graph_url).content
-
-if twitter_enabled:
-    twitter = Twython(
-        twitter_consumer_key,
-        twitter_consumer_secret,
-        twitter_access_token,
-        twitter_access_token_secret)
-    twitter.verify_credentials()
-    twitter_upload_response = twitter.upload_media(
-        media=BytesIO(imageBytes))
-    twitter.update_status(
-        status=message,
-        media_ids=[twitter_upload_response['media_id']])
-    print("Twitter: Done")
 
 if mastodon_enabled:
     mastodon = Mastodon(

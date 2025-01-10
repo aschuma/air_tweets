@@ -9,7 +9,7 @@ c$$$cc$$$c   $$$   $$$$$$c           $$        Y$c$$$c$P    $$""""   $$""""     
 ```
 # Tweets air quality measurement results of particulate matter (Feinstaub) (http://luftdaten.info)
 
-This source code is for a Mastodon or Twitter bot that monitors particulate matter (Feinstaub) for a single sensor from the https://sensor.community network. The bot will automatically publish a tweet when the PM10 particulate matter exceeds a configurable threshold, such as 50 µg/m³."
+This source code is for a Mastodon bot that monitors particulate matter (Feinstaub) for a single sensor from the https://sensor.community network. The bot will automatically publish a tweet when the PM10 particulate matter exceeds a configurable threshold, such as 50 µg/m³."
 
 A tweet might look like this:
 
@@ -18,13 +18,13 @@ A tweet might look like this:
 This repository provides a cron job written in python 3. After a tweet submission no further tweets
 are created for a configurable period.
 
-# Deprecation of Twitter Support
+# Twitter Support Removed
 
-⚠️ The Twitter support will be deprecated some time in the future. Please refer to the ['r3.0.0'](https://github.com/aschuma/air_tweets/tree/r3.0.0) tag to access the latest functioning code for Twitter.
+⚠️ The Twitter support has been removed. Please refer to the ['r3.0.0'](https://github.com/aschuma/air_tweets/tree/r3.0.0) tag to access the latest functioning code for Twitter.
 
 # Installation
 
-- Create a twitter account, obtain an access token, see https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens for further details.
+- Create a Mastodont account, obtain an access token, see https://docs.joinmastodon.org/client/token for further details.
 - Make sure python 3 is installed on your dev machine.
 - Clone this repository
 - Create a virtual environment, you may obtain more information about the steps below here: http://docs.python-guide.org/en/latest/dev/virtualenvs/ 
@@ -62,13 +62,6 @@ are created for a configurable period.
    conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
    conf_msg_preamble = "#feinstaub in #cannstatt:"
 
-   # twitter credentials 
-   twitter_enabled = True
-   twitter_consumer_key = 'Abq...'
-   twitter_consumer_secret = 'nep...'
-   twitter_access_token = '43...'
-   twitter_access_token_secret = 'pq...'
-
    # mastodon credentials
    mastodon_enabled = True
    mastodon_api_base_url = 'https://mastodon.online' 
@@ -87,3 +80,5 @@ are created for a configurable period.
 Please feel free to issue a bug report or submit a PR. Any helping hand is welcome. 
 
 Be aware that my primary coding language is Java. So currently some code portions might not follow python best practices.
+
+

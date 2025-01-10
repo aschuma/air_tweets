@@ -24,14 +24,8 @@ conf_quiet_period_in_hours = 6
 conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
 conf_msg_preamble = "#feinstaub in #cannstatt:"
 
-# twitter credentials
-twitter_enabled = True
-twitter_consumer_key = ''
-twitter_consumer_secret = ''
-twitter_access_token = ''
-twitter_access_token_secret = ''
-
 #mastodon credentials
 mastodon_enabled = True
 mastodon_api_base_url = 'https://mastodon.online' 
 mastodon_access_token =  ''
+
