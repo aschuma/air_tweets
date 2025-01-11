@@ -13,7 +13,7 @@ This source code is for a Mastodon bot that monitors particulate matter (Feinsta
 
 A tweet might look like this:
 
-<img width="482" height="388" src="https://github.com/aschuma/air_tweets/raw/master/tweet-screnshot.png">
+<img width="482" height="388" src="https://github.com/aschuma/air_tweets/raw/main/tweet-screnshot.png">
 
 This repository provides a cron job written in python 3. After a tweet submission no further tweets
 are created for a configurable period.
