@@ -18,8 +18,6 @@ A tweet might look like this:
 This repository provides a cron job written in python 3. After a tweet submission no further tweets
 are created for a configurable period.
 
-⚠️ The Twitter support has been removed. Please refer to the ['r3.0.0'](https://github.com/aschuma/air_tweets/tree/r3.0.0) tag to access the latest functioning code for Twitter.
-
 # Installation
 
 - Create a Mastodont account, obtain an access token, see https://docs.joinmastodon.org/client/token for further details.
