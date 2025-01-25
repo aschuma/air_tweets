@@ -47,6 +47,13 @@ def update_quiet_period():
     write_last_tweet_ts(datetime.datetime.now())
 
 
+def preserve_multiline_text(text):
+    lines = text.split('\n')
+    preserved_lines = [line if line.strip() else ' ' for line in lines]
+    preserved_text = '\n'.join(preserved_lines).rstrip()
+    return preserved_text
+
+
 if not quiet_period_exceeded():
     print("noop, within quiet period")
     sys.exit(0)
@@ -68,11 +75,14 @@ print([value_pm100, value_pm025, value_temperature, value_humidity])
 
 current_time = strftime("%d.%m.%Y %H:%M:%S")
 
-message = '''
+message = preserve_multiline_text('''
 {}
-⚠ PM10: {}µg/m³, PM2.5: {}µg/m³, {}°C, RH:{}% ({})
+⚠ PM10: {}µg/m³, PM2.5: {}µg/m³ ({})
 Details: {}
-This is a #bot. Code available on github aschuma/air_tweets
+
+This is a bot. Code is available on github aschuma/air_tweets.
+
+#feinstaub #luftverschmutzung #opendata #civictech #airrohr #airpollution
 '''.format(
     conf_msg_preamble,
     value_pm100,
@@ -81,6 +91,7 @@ This is a #bot. Code available on github aschuma/air_tweets
     value_humidity,
     current_time,
     conf_luftdaten_map_url
+)
 )
 
 print(message)
