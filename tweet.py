@@ -7,6 +7,7 @@ from mastodon import Mastodon
 import jsonpath_rw_ext as jp
 import requests
 from jinja2 import Template
+from atproto import Client
 
 from config import *
 
@@ -48,11 +49,12 @@ def update_quiet_period():
     write_last_tweet_ts(datetime.datetime.now())
 
 
-def preserve_multiline_text(text):
+def render_template(template_str, params):
+    template = Template(template_str)
+    text = template.render(params)
     lines = text.split('\n')
     preserved_lines = [line if line.strip() else ' ' for line in lines]
-    preserved_text = '\n'.join(preserved_lines).rstrip()
-    return preserved_text
+    return '\n'.join(preserved_lines).rstrip()
 
 
 if not quiet_period_exceeded():
@@ -76,20 +78,15 @@ value_humidity = extract_value_from_json_item(
 
 print([value_pm100, value_pm025, value_temperature, value_humidity])
 
-current_time = strftime("%d.%m.%Y %H:%M:%S")
-
-template = Template(conf_jinja2_template)
-
-message = preserve_multiline_text(template.render(
-    pm10=value_pm100,
-    pm25=value_pm025,
-    temperature=value_temperature,
-    humidity=value_humidity,
-    current_time=current_time,
-    luftdaten_map_url=conf_luftdaten_map_url
-))
-
-print(message)
+current_timestamp = strftime("%d.%m.%Y %H:%M") + " CET"
+template_params = {
+    'pm10': value_pm100,
+    'pm25': value_pm025,
+    'temperature': value_temperature,
+    'humidity': value_humidity,
+    'current_time': current_timestamp,
+    'luftdaten_map_url': conf_luftdaten_map_url
+}
 
 if value_pm100 < conf_limit_pm_10_0:
     print("noop, limit not exceeded, current=",
@@ -98,6 +95,12 @@ if value_pm100 < conf_limit_pm_10_0:
 
 image_bytes = requests.get(
     conf_luftdaten_graph_url).content if conf_luftdaten_graph_url else None
+
+message_mastodon = render_template(mastodon_jinja2_template, template_params)
+message_bluesky = render_template(bluesky_jinja2_template, template_params)
+print("\nmastodon:\n", message_mastodon)
+print("\nbluesky:\n", message_bluesky)
+
 
 if mastodon_enabled:
     mastodon = Mastodon(
@@ -108,12 +111,21 @@ if mastodon_enabled:
             media_file=BytesIO(image_bytes),
             mime_type=conf_luftdaten_graph_mime_type)
         mastodon.status_post(
-            status=message,
+            status=message_mastodon,
             media_ids=[mastodon_upload_response])
     else:
         mastodon.status_post(
-            status=message)
+            status=message_mastodon)
     print("Mastodon: Done")
+
+if bluesky_enabled:
+    client = Client()
+    client.login(bluesky_handle, bluesky_password)
+    if image_bytes:
+        client.send_image(text=message_bluesky, image=BytesIO(image_bytes), image_alt='PM10 graph ' + current_timestamp)
+    else:
+        client.send_post(message_bluesky)
+    print("Bluesky: Done")
 
 update_quiet_period()
 
