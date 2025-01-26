@@ -3,12 +3,12 @@
 conf_storage = "/tmp/.air_tweet"
 
 # the sensor ids
-conf_particle_sensor_id = 7561
-conf_temperature_sensor_id = 7562
+conf_particle_sensor_id = 90887
+conf_temperature_sensor_id = None
 
 # url used to fetch the avg sensor of the last hour
-conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
-conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+conf_url_pm_sensor = "https://api.luftdaten.info/static/v2/data.1h.json"
+conf_url_th_sensor = "https://api.luftdaten.info/static/v2/data.1h.json"
 
 # sensor graphs to embed in the tweet
 conf_luftdaten_graph_url = "http://192.168.0.43:3000/render/d-solo/eDF152mRk/twitter?panelId=2&orgId=1&from={}&to={}&width=800&height=500&tz=UTC%2B02%3A00"
@@ -21,8 +21,22 @@ conf_limit_pm_10_0 = 50
 conf_quiet_period_in_hours = 6
 
 # stuff to embed in the tweet
-conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-conf_msg_preamble = "#feinstaub in #cannstatt:"
+conf_luftdaten_map_url = "https://deutschland.maps.sensor.community/#16/48.8030/9.2253"
+# supported jinja2 template variables: 
+#  - pm10 
+#  - pm25 
+#  - temperature 
+#  - humidity
+#  - current_time
+#  - luftdaten_map_url
+conf_jinja2_template = '''#feinstaub in #cannstatt ({{ current_time CET/CEST}}):
+⚠ PM10: {{ pm10 }}µg/m³, PM2.5: {{ pm25 }}µg/m³{% if temperature is not none and humidity is not none %} ({{ temperature }}°C, {{ humidity }}%){% endif %}
+Details: {{ luftdaten_map_url }}
+
+This is a bot. Code is available on github aschuma/air_tweets.
+
+#feinstaub #luftverschmutzung #opendata #civictech #airrohr #airpollution
+'''
 
 #mastodon credentials
 mastodon_enabled = True

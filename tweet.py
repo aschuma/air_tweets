@@ -6,6 +6,7 @@ from time import strftime
 from mastodon import Mastodon
 import jsonpath_rw_ext as jp
 import requests
+from jinja2 import Template
 
 from config import *
 
@@ -64,35 +65,29 @@ pm_sensor_item = sensor_item(
 
 th_sensor_item = sensor_item(
     sensor_json(conf_url_th_sensor),
-    conf_temperature_sensor_id)
+    conf_temperature_sensor_id) if conf_temperature_sensor_id is not None else None
 
 value_pm100 = extract_value_from_json_item(pm_sensor_item, "P1")
 value_pm025 = extract_value_from_json_item(pm_sensor_item, "P2")
-value_temperature = extract_value_from_json_item(th_sensor_item, "temperature")
-value_humidity = extract_value_from_json_item(th_sensor_item, "humidity")
+value_temperature = extract_value_from_json_item(
+    th_sensor_item, "temperature") if th_sensor_item else None
+value_humidity = extract_value_from_json_item(
+    th_sensor_item, "humidity") if th_sensor_item else None
 
 print([value_pm100, value_pm025, value_temperature, value_humidity])
 
 current_time = strftime("%d.%m.%Y %H:%M:%S")
 
-message = preserve_multiline_text('''
-{}
-⚠ PM10: {}µg/m³, PM2.5: {}µg/m³ ({})
-Details: {}
+template = Template(conf_jinja2_template)
 
-This is a bot. Code is available on github aschuma/air_tweets.
-
-#feinstaub #luftverschmutzung #opendata #civictech #airrohr #airpollution
-'''.format(
-    conf_msg_preamble,
-    value_pm100,
-    value_pm025,
-    value_temperature,
-    value_humidity,
-    current_time,
-    conf_luftdaten_map_url
-)
-)
+message = preserve_multiline_text(template.render(
+    pm10=value_pm100,
+    pm25=value_pm025,
+    temperature=value_temperature,
+    humidity=value_humidity,
+    current_time=current_time,
+    luftdaten_map_url=conf_luftdaten_map_url
+))
 
 print(message)
 
@@ -101,18 +96,23 @@ if value_pm100 < conf_limit_pm_10_0:
           value_pm100, " limit=", conf_limit_pm_10_0)
     sys.exit(0)
 
-imageBytes = requests.get(conf_luftdaten_graph_url).content
+image_bytes = requests.get(
+    conf_luftdaten_graph_url).content if conf_luftdaten_graph_url else None
 
 if mastodon_enabled:
     mastodon = Mastodon(
         access_token=mastodon_access_token,
         api_base_url=mastodon_api_base_url)
-    mastodon_upload_response = mastodon.media_post(
-        media_file=BytesIO(imageBytes),
-        mime_type=conf_luftdaten_graph_mime_type)
-    mastodon.status_post(
-        status=message,
-        media_ids=[mastodon_upload_response])
+    if image_bytes:
+        mastodon_upload_response = mastodon.media_post(
+            media_file=BytesIO(image_bytes),
+            mime_type=conf_luftdaten_graph_mime_type)
+        mastodon.status_post(
+            status=message,
+            media_ids=[mastodon_upload_response])
+    else:
+        mastodon.status_post(
+            status=message)
     print("Mastodon: Done")
 
 update_quiet_period()
