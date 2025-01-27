@@ -8,6 +8,7 @@ import jsonpath_rw_ext as jp
 import requests
 from jinja2 import Template
 from atproto import Client
+import re
 
 from config import *
 
@@ -55,6 +56,41 @@ def render_template(template_str, params):
     lines = text.split('\n')
     preserved_lines = [line if line.strip() else ' ' for line in lines]
     return '\n'.join(preserved_lines).rstrip()
+
+def add_bluesky_facets(text):
+    """
+    Generates facets for hashtags in the given text, ignoring hashtags within URLs.
+    """
+    facets = []
+
+    # Regex pattern for URLs
+    url_pattern = r"https?://[^\s]+"
+    # Regex pattern for hashtags
+    hashtag_pattern = r"#(\w+)"
+
+    # Find all URLs in the text and their positions
+    url_matches = [(match.start(), match.end()) for match in re.finditer(url_pattern, text)]
+
+    # Find hashtags and create facets, ensuring they are not part of a URL
+    for match in re.finditer(hashtag_pattern, text):
+        start, end = match.span()
+        # Check if the hashtag is within any URL
+        is_inside_url = any(start >= url_start and end <= url_end for url_start, url_end in url_matches)
+        if not is_inside_url:
+            facets.append({
+                "index": {
+                    "byteStart": start,
+                    "byteEnd": end,
+                },
+                "features": [
+                    {
+                        "$type": "app.bsky.richtext.facet#tag",
+                        "tag": match.group(1),  # The tag without the #
+                    }
+                ],
+            })
+
+    return facets
 
 
 if not quiet_period_exceeded():
@@ -121,10 +157,11 @@ if mastodon_enabled:
 if bluesky_enabled:
     client = Client()
     client.login(bluesky_handle, bluesky_password)
+    facets = add_bluesky_facets(message_bluesky)
     if image_bytes:
-        client.send_image(text=message_bluesky, image=BytesIO(image_bytes), image_alt='PM10 graph ' + current_timestamp)
+        client.send_image(text=message_bluesky, image=BytesIO(image_bytes), image_alt='PM10 graph ' + current_timestamp, facets=facets)
     else:
-        client.send_post(message_bluesky)
+        client.send_post(text=message_bluesky, facets=facets)
     print("Bluesky: Done")
 
 update_quiet_period()
