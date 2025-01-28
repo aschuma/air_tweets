@@ -39,13 +39,18 @@ bluesky_password = '...'
 #  - humidity
 #  - current_time
 #  - luftdaten_map_url
-mastodon_jinja2_template = '''#feinstaub in #cannstatt ({{ current_time }}):
-⚠ PM10: {{ pm10 }}µg/m³, PM2.5: {{ pm25 }}µg/m³{% if temperature is not none and humidity is not none %} ({{ temperature }}°C, {{ humidity }}%){% endif %}
+mastodon_jinja2_template = '''
+
+⚠ #Feinstaub in #Cannstatt / #Stuttgart ({{ current_time }})
+
+PM10: {{ pm10 }}µg/m³
+PM2.5: {{ pm25 }}µg/m³
+
 Details: {{ luftdaten_map_url }}
 
 This is a bot. Code is available on github aschuma/air_tweets.
 
-#feinstaub #luftverschmutzung #particulatematter #opendata #civictech #airrohr #airpollution #airquality
+#Luftverschmutzung #Particulatematter #Opendata #Civictech #Airrohr #Airpollution #Airquality
 '''
 
 bluesky_jinja2_template = '''
@@ -57,6 +62,7 @@ PM10: {{ pm10 }}µg/m³
 PM2.5: {{ pm25 }}µg/m³
 
 Details: {{ luftdaten_map_url }}
+
 
 #Luftverschmutzung #Particulatematter #Opendata #Civictech #Airrohr #Airpollution #Airquality
 '''

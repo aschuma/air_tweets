@@ -1,16 +1,13 @@
 import datetime
 import shelve
 import sys
-from io import BytesIO
 from time import strftime
-from mastodon import Mastodon
 import jsonpath_rw_ext as jp
 import requests
 from jinja2 import Template
-from atproto import Client
-import re
-
 from config import *
+from bluesky_send_post import send_bluesky_post
+from mastodon_send_post import send_mastodon_post
 
 
 def sensor_json(url):
@@ -53,44 +50,7 @@ def update_quiet_period():
 def render_template(template_str, params):
     template = Template(template_str)
     text = template.render(params)
-    lines = text.split('\n')
-    preserved_lines = [line if line.strip() else ' ' for line in lines]
-    return '\n'.join(preserved_lines).rstrip()
-
-def add_bluesky_facets(text):
-    """
-    Generates facets for hashtags in the given text, ignoring hashtags within URLs.
-    """
-    facets = []
-
-    # Regex pattern for URLs
-    url_pattern = r"https?://[^\s]+"
-    # Regex pattern for hashtags
-    hashtag_pattern = r"#(\w+)"
-
-    # Find all URLs in the text and their positions
-    url_matches = [(match.start(), match.end()) for match in re.finditer(url_pattern, text)]
-
-    # Find hashtags and create facets, ensuring they are not part of a URL
-    for match in re.finditer(hashtag_pattern, text):
-        start, end = match.span()
-        # Check if the hashtag is within any URL
-        is_inside_url = any(start >= url_start and end <= url_end for url_start, url_end in url_matches)
-        if not is_inside_url:
-            facets.append({
-                "index": {
-                    "byteStart": start,
-                    "byteEnd": end,
-                },
-                "features": [
-                    {
-                        "$type": "app.bsky.richtext.facet#tag",
-                        "tag": match.group(1),  # The tag without the #
-                    }
-                ],
-            })
-
-    return facets
+    return text
 
 
 if not quiet_period_exceeded():
@@ -134,34 +94,16 @@ image_bytes = requests.get(
 
 message_mastodon = render_template(mastodon_jinja2_template, template_params)
 message_bluesky = render_template(bluesky_jinja2_template, template_params)
-print("\nmastodon:\n", message_mastodon)
-print("\nbluesky:\n", message_bluesky)
+print("\nmastodon:\n|", message_mastodon, "|")
+print("\nbluesky:\n|", message_bluesky, "|")
 
 
 if mastodon_enabled:
-    mastodon = Mastodon(
-        access_token=mastodon_access_token,
-        api_base_url=mastodon_api_base_url)
-    if image_bytes:
-        mastodon_upload_response = mastodon.media_post(
-            media_file=BytesIO(image_bytes),
-            mime_type=conf_luftdaten_graph_mime_type)
-        mastodon.status_post(
-            status=message_mastodon,
-            media_ids=[mastodon_upload_response])
-    else:
-        mastodon.status_post(
-            status=message_mastodon)
+    send_mastodon_post(message_mastodon, image_bytes)
     print("Mastodon: Done")
 
 if bluesky_enabled:
-    client = Client()
-    client.login(bluesky_handle, bluesky_password)
-    facets = add_bluesky_facets(message_bluesky)
-    if image_bytes:
-        client.send_image(text=message_bluesky, image=BytesIO(image_bytes), image_alt='PM10 graph ' + current_timestamp, facets=facets)
-    else:
-        client.send_post(text=message_bluesky, facets=facets)
+    send_bluesky_post(message_bluesky, image_bytes, current_timestamp)
     print("Bluesky: Done")
 
 update_quiet_period()
