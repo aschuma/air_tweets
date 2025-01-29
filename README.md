@@ -9,7 +9,7 @@ c$$$cc$$$c   $$$   $$$$$$c           $$        Y$c$$$c$P    $$""""   $$""""     
 ```
 # Tweets air quality measurement results of particulate matter (Feinstaub) (http://luftdaten.info)
 
-This source code is for a Mastodon bot that monitors particulate matter (Feinstaub) for a single sensor from the https://sensor.community network. The bot will automatically publish a tweet when the PM10 particulate matter exceeds a configurable threshold, such as 50 µg/m³."
+This source code is for a Mastodon / Bluesky bot that monitors particulate matter (Feinstaub) for a single sensor from the https://sensor.community network. The bot will automatically publish a tweet when the PM10 particulate matter exceeds a configurable threshold, such as 50 µg/m³."
 
 A tweet might look like this:
 
