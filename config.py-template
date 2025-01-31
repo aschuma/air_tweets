@@ -20,6 +20,9 @@ conf_limit_pm_10_0 = 50
 # quiet period after a tweet has been published
 conf_quiet_period_in_hours = 6
 
+# stuff to embed in the tweet
+conf_luftdaten_map_url = "https://maps.sensor.community/#15/48.8040/9.2280"
+
 # mastodon credentials
 mastodon_enabled = True
 mastodon_api_base_url = 'https://mastodon.online' 
