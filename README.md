@@ -33,36 +33,41 @@ are created for a configurable period.
 - Copy the file ```config.py-template``` to ```config.py```, adjust the setup. At least you should alter the following values as starting point.
 
    ```
-   # database, last tweet timestamp
-   conf_storage = "/tmp/.air_tweet"
-   
-   # the sensor ids
-   conf_particle_sensor_id = 609
-   conf_temperature_sensor_id = 610
+# database, last tweet timestamp
+conf_storage = "/tmp/.air_tweet"
 
-   # url used to fetch the avg sensor of the last hour
-   conf_url_pm_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
-   conf_url_th_sensor = "http://api.luftdaten.info/static/v2/data.1h.json"
+# the sensor IDs (temperature is optional. If you provide an ID, consider updating the templates accordingly)
+conf_particle_sensor_id = 90887
+conf_temperature_sensor_id = None
 
-   # sensor graph to embed in the tweet, provided for example by a graphana image renderer
-   conf_luftdaten_graph_url = "http://192.168.0.43:3000/render/d-solo/eDF152mRk/twitter?panelId=2&orgId=1&from={}&to={}&width=800&height=500&tz=UTC%2B02%3A00"
-   conf_luftdaten_graph_mime_type = "image/png"
+# url used to fetch the avg sensor of the last hour
+[..]
 
-   # PM 10 limit
-   conf_limit_pm_10_0 = 50
-   
-   # quiet period after a tweet has been published
-   conf_quiet_period_in_hours = 6
-   
-   # stuff to embed in the tweet
-   conf_luftdaten_map_url = "http://deutschland.maps.luftdaten.info/#13/48.8066/9.2372"
-   conf_msg_preamble = "#feinstaub in #cannstatt:"
+# sensor graph grafana image to embed in the tweet (optional)
+#   conf_luftdaten_graph_url = "http://192.168.0.43:3000/render/d-solo/eDF152mRk/twitter?panelId=2&orgId=1&from={}&to={}&width=800&height=500&tz=UTC%2B02%3A00"
+conf_luftdaten_graph_url = None
+conf_luftdaten_graph_mime_type = "image/png"
 
-   # mastodon credentials
-   mastodon_enabled = True
-   mastodon_api_base_url = 'https://mastodon.online' 
-   mastodon_access_token =  'sE98...'
-   
+# PM 10 limit
+conf_limit_pm_10_0 = 50
+
+# stuff to embed in the tweet - link to sensor community map
+conf_luftdaten_map_url = "https://maps.sensor.community/#15/48.8040/9.2280"
+
+# quiet period after a tweet has been published
+conf_quiet_period_in_hours = 6
+
+# mastodon credentials
+mastodon_enabled = True
+mastodon_api_base_url = 'https://mastodon.online' 
+mastodon_access_token =  ''
+
+# bluesky credentials
+bluesky_enabled = False
+bluesky_handle = '....bsky.social'
+bluesky_password = '...'
+
+[..]
    ```
 
 - Setup a cron job
