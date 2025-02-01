@@ -1,6 +1,6 @@
 
 # database, last tweet timestamp
-conf_storage = "/home/pi/Feinstaubbot/.air_tweet_daily"
+conf_storage = "/tmp/.air_tweet"
 
 # the sensor ids
 conf_particle_sensor_id = 90887
@@ -15,36 +15,36 @@ conf_luftdaten_graph_url = "http://192.168.0.43:3000/render/d-solo/eDF152mRk/twi
 conf_luftdaten_graph_mime_type = "image/png"
 
 # PM 10 limit
-conf_limit_pm_10_0 = 0
+conf_limit_pm_10_0 = 50
 
 # quiet period after a tweet has been published
 conf_quiet_period_in_hours = 6
 
 # stuff to embed in the tweet
 conf_luftdaten_map_url = "https://maps.sensor.community/#15/48.8040/9.2280"
+
 # mastodon credentials
 mastodon_enabled = True
-mastodon_api_base_url = 'https://mastodon.online'
-mastodon_access_token =  '...'
+mastodon_api_base_url = 'https://mastodon.online' 
+mastodon_access_token =  ''
 
-# Bluesky credentials
-bluesky_enabled = True
-bluesky_handle = '...bsky.social'
+# bluesky credentials
+bluesky_enabled = False
+bluesky_handle = '....bsky.social'
 bluesky_password = '...'
 
 # Dedicated templates to handle varying maximum length constraints.
 #
-# templates - supported jinja2 template variables:
-#  - pm10
-#  - pm25
-#  - temperature
+# templates - supported jinja2 template variables: 
+#  - pm10 
+#  - pm25 
+#  - temperature 
 #  - humidity
 #  - current_time
 #  - luftdaten_map_url
 mastodon_jinja2_template = '''
-DAILY AIR QUALITY UPDATE
 
-#Feinstaub in #Cannstatt / #Stuttgart ({{ current_time }})
+⚠ #Feinstaub in #Cannstatt / #Stuttgart ({{ current_time }})
 
 PM10: {{ pm10 }}µg/m³
 PM2.5: {{ pm25 }}µg/m³
@@ -69,4 +69,3 @@ Details: {{ luftdaten_map_url }}
 
 #Luftverschmutzung #Particulatematter #Opendata #Civictech #Airrohr #Airpollution #Airquality
 '''
-
