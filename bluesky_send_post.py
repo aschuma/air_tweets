@@ -1,14 +1,13 @@
 from io import BytesIO
 import json
 from atproto import Client
-from config import bluesky_handle, bluesky_password
 from urllib.parse import urlparse
 from typing import List, Dict, Any
 import re
 
-def send_bluesky_post(message: str, image_bytes: bytes, timestamp: str):
+def send_bluesky_post(conf, message: str, image_bytes: bytes, timestamp: str):
     client = Client()
-    client.login(bluesky_handle, bluesky_password)
+    client.login(conf['bluesky_handle'], conf['bluesky_password'])
     facets = calculate_bluesky_facets(message)
     # print(json.dumps(facets, indent=2))
     if image_bytes:
