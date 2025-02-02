@@ -9,7 +9,7 @@ def send_mastodon_post(conf, message: str, image_bytes: bytes):
     if image_bytes:
         mastodon_upload_response = mastodon.media_post(
             media_file=BytesIO(image_bytes),
-            mime_type=conf.conf_luftdaten_graph_mime_type)
+            mime_type=conf['conf_luftdaten_graph_mime_type'])
         mastodon.status_post(
             status=text,
             media_ids=[mastodon_upload_response])
