@@ -65,8 +65,8 @@ th_sensor_item = sensor_item(
     sensor_json(conf_url_th_sensor),
     conf_temperature_sensor_id) if conf_temperature_sensor_id is not None else None
 
-value_pm100 = extract_value_from_json_item(pm_sensor_item, "P1")
-value_pm025 = extract_value_from_json_item(pm_sensor_item, "P2")
+value_pm100 = round( extract_value_from_json_item(pm_sensor_item, "P1"), 1)
+value_pm025 = round( extract_value_from_json_item(pm_sensor_item, "P2"), 1)
 value_temperature = extract_value_from_json_item(
     th_sensor_item, "temperature") if th_sensor_item else None
 value_humidity = extract_value_from_json_item(
