@@ -1,4 +1,4 @@
 config.py
 .idea
 venv
-config.py
+__pycache__
