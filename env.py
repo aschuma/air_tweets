@@ -45,10 +45,14 @@ def get_config_value(env_key: str, config: configparser.ConfigParser,
         return int(value)
     return value
 
-def load_configuration(config_path: str = 'config/config.ini') -> Dict[str, Any]:
+def load_configuration(config_path: str = None) -> Dict[str, Any]:
     """
     Load configuration from INI file with environment variable overrides
     """
+    # Use environment variable if config_path not provided
+    if config_path is None:
+        config_path = os.getenv('CONFIG_PATH', 'config/config.ini')
+    
     # Read configuration from file
     config = configparser.ConfigParser(interpolation=None)
     

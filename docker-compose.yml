@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  air_tweets:
+    build: .
+    image: air_tweets:latest
+    volumes:
+      # Mount configuration from host (required)
+      - ./config/config.ini:/app/config/config.ini:ro
+      # Mount storage directory for persistent tweet timestamps
+      - ./data:/data
+    environment:
+      # Override config path if needed
+      - CONFIG_PATH=/app/config/config.ini
+      # Override storage path to use persistent volume
+      - CONF_STORAGE=/data/.air_tweet
+      # Example: Override configuration via environment variables
+      # - MASTODON_ENABLED=true
+      # - BLUESKY_ENABLED=false
+      # - CONF_LIMIT_PM_10_0=50
+    restart: unless-stopped
+    # Uncomment to run on a schedule using cron in the container
+    # command: sh -c "while true; do python -u tweet.py; sleep 900; done"
